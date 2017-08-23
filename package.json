@@ -2,7 +2,7 @@
   "name": "turingmachine",
   "version": "1.0.0",
   "description": "Turing machine in Electron with TypeScript",
-  "main": "build/main.js",
+  "main": "build/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron ."
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/leomeneguzzi/turingMachine#readme",
   "devDependencies": {
+    "@types/node": "^8.0.24",
     "electron": "^1.7.5"
   },
   "globalDependencies": {
