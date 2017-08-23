@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "outDir": "build",
+    "noEmitOnError": true,
+    "noImplicitAny": false,
+    "removeComments": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "src/**/*"
+  ]
+}

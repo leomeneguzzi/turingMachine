@@ -1,0 +1,32 @@
+{
+  "name": "turingmachine",
+  "version": "1.0.0",
+  "description": "Turing machine in Electron with TypeScript",
+  "main": "build/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leomeneguzzi/turingMachine.git"
+  },
+  "keywords": [
+    "turing",
+    "machine",
+    "electron",
+    "typescript"
+  ],
+  "author": "Leonardo Meneguzzi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leomeneguzzi/turingMachine/issues"
+  },
+  "homepage": "https://github.com/leomeneguzzi/turingMachine#readme",
+  "devDependencies": {
+    "electron": "^1.7.5"
+  },
+  "globalDependencies": {
+    "typescript": "^2.4.2"
+  }
+}
