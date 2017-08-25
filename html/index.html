@@ -5,12 +5,28 @@
     <title>Hello World!</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
+    <!--<h1>Hello World!</h1>
+    <!-- All of the Node.js APIs are available in this renderer process. -d->
     We are using Node.js <script>document.write(process.versions.node)</script>,
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
-  </body>
+    -->
 
-  
+    <form class="form">
+      <div class="form-group">
+        <label for="transitions">Transições</label>
+        </br>
+        <textarea required name="transitions" id="transitions" cols="30" rows="10"></textarea>
+      </div>
+
+      <button class="btn btn-primary" type="submit">Mandar</button>
+    </form>     
+
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <script>
+      $('#transitions').val('0,0,1,0,R\n0,1,0,1,R');
+    </script>
+    <script src="../build/Index.js"></script>
+
+  </body>
 </html>
