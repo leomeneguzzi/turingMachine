@@ -16,8 +16,8 @@ $('.form').submit(function (event){
         _transitions.push(new Transition(...transition.split(',')));
     });
     
-    _transitions.initTransition = _transitions.toArray()[0];
-    _transitions.endTransition = _transitions.toArray()[3];
+    _transitions.initState = '1';
+    _transitions.endState = '3';
 
     console.log(TuringMachine.testTape(_inputTapeArray,_transitions));
 

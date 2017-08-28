@@ -1,8 +1,8 @@
 import { Transition } from './Transition';
 export class Transitions {
     private _transitions : Array<Transition> = [];
-    private _initTransition : Transition;
-    private _endTransition : Transition;
+    private _initState : string;
+    private _endState : string;
 
     push(transition: Transition): void {
         this._transitions.push(transition);
@@ -12,21 +12,21 @@ export class Transitions {
         return [].concat(this._transitions);
     }
 
-    getTransitionByEntryState(state : String){
-        return this._transitions.find((transition : Transition) => transition.entryState == state);
+    getTransitionByEntryState(state : string) : Array < Transition >{
+        return [].concat(this._transitions.filter((transition : Transition) => transition.entryState == state));
     }
 
-    public get initTransition(): Transition {
-		return this._initTransition;
+    public get initState(): string {
+		return this._initState;
 	}
-	public set initTransition(value: Transition) {
-		this._initTransition = value;
+	public set initState(value: string) {
+		this._initState = value;
     }
 
-    public get endTransition(): Transition {
-		return this._endTransition;
+    public get endState(): string {
+		return this._endState;
 	}
-	public set endTransition(value: Transition) {
-		this._endTransition = value;
+	public set endState(value: string) {
+		this._endState = value;
     }
 }
