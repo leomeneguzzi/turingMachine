@@ -2,7 +2,7 @@ export class Transition {
     //(estado atual, read), (estado destino, write, direção)
     constructor(...args: string[]);
     constructor(
-        private _entryState : string,
+        private _entryState  : string,
         private _read        : string,
         private _targetState : string,
         private _write       : string,

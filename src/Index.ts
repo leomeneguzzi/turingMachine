@@ -7,18 +7,16 @@ $('.form').submit(function (event){
     let _transitionsHTML = $('#transitions');
     let _inputTapeHTML = $('#inputTape');
     //console.log([].concat((_transitions.val() as string).split(/\r?\n/)));
-    let _transitionsArray = [].concat((_transitionsHTML.val() as string).split(/\r?\n/));
-    let _inputTapeArray = [].concat((_inputTapeHTML.val() as string).split(','));
+    let _turingMachine = new TuringMachine();
+    _turingMachine.inputTapes = [].concat((_inputTapeHTML.val() as string).split(/\r?\n/)).map( (element : string) => element.split(','));
+    [].concat((_transitionsHTML.val() as string).split(/\r?\n/)).map((transition : string)=> _turingMachine.transitions.pushTransition(new Transition(...transition.split(','))));
+    _turingMachine.initState = '1';
 
-    let _transitions = new Transitions();
-    _transitionsArray.forEach(transition => {
-        //(...transitions.split(','))
-        _transitions.push(new Transition(...transition.split(',')));
-    });
-    
-    _transitions.initState = '1';
-    _transitions.endState = '3';
-
-    console.log(TuringMachine.testTape(_inputTapeArray,_transitions));
+    let temp = _turingMachine.inputTapes;
+    temp[0][0] = '50';
+    console.log(temp);
+    //console.log(_turingMachine.testTapes());
+    console.log(_turingMachine.inputTapes);
+    //console.log(TuringMachine.testTape(_inputTapeArray,_transitions));
 
 });
