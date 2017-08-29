@@ -1,5 +1,5 @@
 export class Transition {
-    //(estado atual, read), (estado destino, write, direção)
+	//(estado atual, read), (estado destino, write, direção)
     constructor(...args: string[]);
     constructor(
         private _entryState  : string,

@@ -1,17 +1,18 @@
 import { Transition } from './Transition';
+import {clone} from 'lodash';
 export class Transitions {
-    private _transitions : Array<Transition> = [];
+    private _transitions : Transition[] = [];
 
 
     pushTransition(transition: Transition): void {
         this._transitions.push(transition);
     }
 
-    get transitions(): Array < Transition > {
-        return [].concat(this._transitions);
+    get toArray(): Transition[] {
+        return clone(this._transitions);
     }
-    getTransitionByEntryState(state : string) : Array < Transition >{
-        return [].concat(this._transitions.filter((transition : Transition) => transition.entryState == state));
+    getTransitionByEntryState(state : string) : Transition[]{
+        return clone(this._transitions.filter((transition : Transition) => transition.entryState == state));
     }
 
 }

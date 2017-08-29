@@ -12,11 +12,9 @@ $('.form').submit(function (event){
     [].concat((_transitionsHTML.val() as string).split(/\r?\n/)).map((transition : string)=> _turingMachine.transitions.pushTransition(new Transition(...transition.split(','))));
     _turingMachine.initState = '1';
 
-    let temp = _turingMachine.inputTapes;
-    temp[0][0] = '50';
-    console.log(temp);
-    //console.log(_turingMachine.testTapes());
+    console.log(_turingMachine.transitions.toArray);
+
+    console.log(_turingMachine.testTapes());
     console.log(_turingMachine.inputTapes);
-    //console.log(TuringMachine.testTape(_inputTapeArray,_transitions));
 
 });
