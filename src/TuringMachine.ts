@@ -4,25 +4,27 @@ import {clone, cloneDeep} from 'lodash';
 export class TuringMachine{
 
     private _transitions = new Transitions();
-    private _inputTapes : string[][];
-    private _outputTapes : string[][];
+    private _inputTapes : string[][] = [];
+    private _outputTapes : string[][] = [];
     private _initState : string;
 
     testTapes(inputTapes : string[][] = this.inputTapes, transitions : Transitions = this.transitions, positionTape : number = 0, state : string = this.initState) : boolean[]{
-        return clone(inputTapes.map( (inputTape) => this.testTape(inputTape,transitions)));
+        return clone(inputTapes.map( (inputTape,index) => this.testTape(inputTape, index,transitions)));
     }
 
-    testTape(inputTape : string[] = this.inputTapes[0], transitions : Transitions = this.transitions, positionTape : number = 0, state : string = this.initState) : boolean{
-        let transition = this.getTransition(transitions.getTransitionByEntryState(state), inputTape[positionTape]);
+    testTape(tape : string[] = this.inputTapes[0], index : number = 0, transitions : Transitions = this.transitions, positionTape : number = 0, state : string = this.initState) : boolean{
+        this._outputTapes[index] = tape;
+        let transition = this.getTransition(transitions.getTransitionByEntryState(state), tape[positionTape]);
         if(transition != undefined) {
-            inputTape[positionTape] = transition.write;
-            positionTape += transition.directionToInt();
-            state = transition.targetState;
+            tape[positionTape] = transition.write;
             return transition.entryState != this.endState ? 
-            this.testTape(inputTape, transitions, positionTape, state) : true;
-        }else{
-            return false;
-        }
+            this.testTape(  tape,
+                            index,
+                            transitions, 
+                            positionTape += transition.directionToInt(),
+                            transition.targetState
+                         ) : true;
+        }else return false;
     }
 
     private getTransition(transitions : Transition[], tapeValue : string) : Transition{
@@ -30,7 +32,7 @@ export class TuringMachine{
     }
 
     public get alphabet() :string[] {
-        return [].concat(this.inputTapes.map((element, index, self) => index == self.indexOf(element)));
+        return [].concat(this.inputTapes.map((tape) => [].concat(tape,this.transitions.alphabetTransitions).filter((value,index,self) => self.indexOf(value) === index)));
     }
 
     public get initState(): string {
@@ -62,9 +64,5 @@ export class TuringMachine{
     
     public get outputTapes():string[][] {
 		return cloneDeep(this._outputTapes);
-	}
-
-	public set outputTapes(outputTapes: string[][]) {
-		this._inputTapes = cloneDeep(outputTapes);
 	}
 }

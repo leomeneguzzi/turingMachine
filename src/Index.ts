@@ -11,10 +11,8 @@ $('.form').submit(function (event){
     _turingMachine.inputTapes = [].concat((_inputTapeHTML.val() as string).split(/\r?\n/)).map( (element : string) => element.split(','));
     [].concat((_transitionsHTML.val() as string).split(/\r?\n/)).map((transition : string)=> _turingMachine.transitions.pushTransition(new Transition(...transition.split(','))));
     _turingMachine.initState = '1';
-
-    console.log(_turingMachine.transitions.toArray);
-
     console.log(_turingMachine.testTapes());
-    console.log(_turingMachine.inputTapes);
+    console.log(_turingMachine.alphabet);
+    
 
 });
