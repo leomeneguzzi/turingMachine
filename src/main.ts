@@ -10,8 +10,8 @@ export default class Main {
 
   private static createWindow(){
     Main.mainWindow = new BrowserWindow({
-      width: 800,
-      height: 600
+      width: 1600,
+      height: 1000
     });
     Main.mainWindow.loadURL(url.format({
       pathname: path.join(__dirname, '../html', 'index.html'),

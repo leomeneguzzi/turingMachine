@@ -10,9 +10,7 @@ $('.form').submit(function (event){
     let _turingMachine = new TuringMachine();
     _turingMachine.inputTapes = [].concat((_inputTapeHTML.val() as string).split(/\r?\n/)).map( (element : string) => element.split(','));
     [].concat((_transitionsHTML.val() as string).split(/\r?\n/)).map((transition : string)=> _turingMachine.transitions.pushTransition(new Transition(...transition.split(','))));
-    _turingMachine.initState = '1';
+    _turingMachine.initState = $('#initState').val().toString();
     console.log(_turingMachine.testTapes());
-    console.log(_turingMachine.alphabet);
-    
-
+    console.log(_turingMachine.outputTapes);
 });
