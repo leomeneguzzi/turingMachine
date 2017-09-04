@@ -9,17 +9,18 @@ export class Transition {
         private _direction   : string
     ){}
 
-
 	public get entryState(): string {
 		return this._entryState;
 	}
+
 	public set entryState(value: string) {
 		this._entryState = value;
-  }
+	}
     
-  public get read(): string {
+	public get read(): string {
 		return this._read;
 	}
+
 	public set read(value: string) {
 		this._read = value;
 	}
@@ -27,20 +28,23 @@ export class Transition {
 	public get targetState(): string {
 		return this._targetState;
 	}
+
 	public set targetState(value: string) {
 		this._targetState = value;
-  }
+  	}
 
-  public get write(): string {
+  	public get write(): string {
 		return this._write;
 	}
+
 	public set write(value: string) {
 		this._write = value;
-  }
+  	}
 
-  public get direction(): string {
+  	public get direction(): string {
 		return this._direction;
 	}
+	
 	public set direction(value: string) {
 		this._direction = value;
 	}

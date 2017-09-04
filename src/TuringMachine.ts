@@ -6,25 +6,24 @@ export class TuringMachine{
     private _transitions = new Transitions();
     private _inputTapes : string[][] = [].concat('-');
     private _outputTapes : string[][] = [];
-    private _initState : string;
 
-    testTapes(inputTapes : string[][] = this.inputTapes, transitions : Transitions = this.transitions, positionTape : number = 0, state : string = this.initState) : boolean[]{
+    testTapes(inputTapes : string[][] = this.inputTapes, transitions : Transitions = this.transitions, tapePosition : number = 0, state : string = this._transitions.initState) : boolean[]{
         return clone(inputTapes.map( (inputTape,index) => this.testTape(inputTape, index,transitions)));
     }
 
-    testTape(tape : string[] = this.inputTapes[0], index : number = 0, transitions : Transitions = this.transitions, positionTape : number = 0, state : string = this.initState) : boolean{
-        if(positionTape == -1) { tape.unshift('-'); positionTape+=1;}
+    testTape(tape : string[] = this.inputTapes[0], index : number = 0, transitions : Transitions = this.transitions, tapePosition : number = 0, state : string = this._transitions.initState) : boolean{
+        if(tapePosition == -1) { tape.unshift('-'); tapePosition+=1;}
         this._outputTapes[index] = tape;
-        //console.log(this._outputTapes[index]);
-        let transition = this.getTransition(transitions.getTransitionByEntryState(state), tape[positionTape]);
+        let transition = this.getTransition(transitions.getTransitionByEntryState(state), tape[tapePosition]);
         if(transition != undefined) {
-            tape[positionTape] = transition.write;
+            tape[tapePosition] = transition.write;
             return isEqual(transition, this.endTransition()) ? 
                 true : 
-                    this.testTape(  tape,
+                    this.testTape(
+                        tape,
                         index,
                         transitions, 
-                        positionTape += transition.directionToInt(),
+                        tapePosition += transition.directionToInt(),
                         transition.targetState
                     );
         }else return false;
@@ -38,19 +37,12 @@ export class TuringMachine{
         return [].concat(this.inputTapes.map((tape) => [].concat(tape,this.transitions.alphabetTransitions).filter((value,index,self) => self.indexOf(value) === index)));
     }
 
-    public get initState(): string {
-		return clone(this._initState);
-	}
-	public set initState(initState: string) {
-		this._initState = clone(initState);
-    }
-
     public endTransition(transitions = this.transitions): Transition {
         return clone(transitions.toArray.find((transition) => transition.targetState == 'H'));
 	}
 
     public get transitions(): Transitions {
-		return clone(this._transitions);
+		return this._transitions;
 	}
 
 	public set transitions(transition: Transitions) {
