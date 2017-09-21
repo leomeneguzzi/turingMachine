@@ -15,7 +15,7 @@ export class Transitions {
         return clone(this._transitions.filter((transition : Transition) => transition.entryState == state));
     }
 
-    get alphabetTransitions() : string[]{
+    get alphabet() : string[]{
         return [].concat(
             ...this._transitions.map((transition,index,self) => {
                 return [].concat(transition.read,transition.write)

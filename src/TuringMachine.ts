@@ -34,7 +34,7 @@ export class TuringMachine{
     }
 
     public get alphabet() :string[] {
-        return [].concat(this.inputTapes.map((tape) => [].concat(tape,this.transitions.alphabetTransitions).filter((value,index,self) => self.indexOf(value) === index)));
+        return [].concat(...this.inputTapes).filter((value,index,self) => self.indexOf(value) === index);
     }
 
     public endTransition(transitions = this.transitions): Transition {
