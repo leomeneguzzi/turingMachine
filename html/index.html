@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Turing Machine!</title>
   </head>
   <body>
     <!--<h1>Hello World!</h1>
@@ -49,8 +49,8 @@
       H = halt
       - = vazio
       */
-      $('#transitions').val(`1,1,2,1,R\n2,1,2,0,R\n2,-,3,-,L\n3,0,H,1,S`);
-      $('#inputTape').val(`1,1,1,1,1,1,1,1`);
+      $('#transitions').val(`0,a,0,a,R\n0,-,4,-,S\n0,b,1,b,R\n1,b,1,b,R\n1,c,2,c,S\n2,c,2,c,R\n2,-,H,-,S\n4,-,H,-,S\n**\n0,-,0,a,R\n0,-,4,-,L\n0,-,1,-,S\n1,-,1,-,S\n1,-,2,-,L\n2,a,2,a,L\n2,-,H,-,S\n4,-,H,-,S\n**\n0,-,0,-,S\n0,-,4,-,S\n0,-,1,b,R\n1,-,1,b,R\n1,-,2,-,L\n2,b,2,b,L\n2,-,H,-,R\n4,-,H,-,S`);
+      $('#inputTape').val(`a,a,b,b,c,c:0\n-,-:0\n-,-:0`);
     </script>
     <script>require('../build/Index.js')</script>
   </body>

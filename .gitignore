@@ -3,3 +3,4 @@ build/*
 electronTuringMachine/*
 *.zip
 npm-debug.log
+package-lock.json

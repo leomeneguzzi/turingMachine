@@ -1,7 +1,6 @@
 import { Transition } from './Transition';
 import {clone} from 'lodash';
 export class Transitions {
-    private _initState : string;
     private _transitions : Transition[] = [];
 
     pushTransition(transition: Transition): void {
@@ -11,8 +10,13 @@ export class Transitions {
     get toArray(): Transition[] {
         return clone(this._transitions);
     }
+
     getTransitionByEntryState(state : string) : Transition[]{
         return clone(this._transitions.filter((transition : Transition) => transition.entryState == state));
+    }
+
+    getTransitionByStates(entryState : string, targetState : string) : Transition[]{
+        return clone(this._transitions.filter((transition : Transition) => transition.entryState == entryState && transition.targetState==targetState));
     }
 
     get alphabet() : string[]{
@@ -28,14 +32,5 @@ export class Transitions {
                 return [].concat(transition.entryState,transition.targetState)
             })).filter((value,index,self) => (self.indexOf(value) === index) && (value != 'H'));
     }
-
-	public get initState(): string {
-		return this._initState;
-	}
-
-	public set initState(value: string) {
-        this._initState = value;
-	}
-    
 
 }
