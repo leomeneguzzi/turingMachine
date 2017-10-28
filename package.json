@@ -5,8 +5,9 @@
   "main": "build/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"tsc" : "tsc -w",
-    "start": "electron ."
+    "tsc": "tsc -w",
+    "start": "electron .",
+    "win64": "electron-packager . myApp --platform=win32 --arch=x64"
   },
   "repository": {
     "type": "git",
@@ -25,8 +26,14 @@
   },
   "homepage": "https://github.com/leomeneguzzi/turingMachine#readme",
   "devDependencies": {
+    "@types/jquery": "^3.2.12",
+    "@types/lodash": "^4.14.74",
     "@types/node": "^8.0.24",
-	"typescript": "^2.4.2",
-    "electron": "^1.7.5"
-  }
+    "electron": "^1.7.5",
+    "tslint": "^5.8.0",
+    "typescript": "^2.5.3",
+    "lodash": "^4.17.4",
+    "jquery": "^3.2.1"
+  },
+  "dependencies": {}
 }

@@ -1,24 +1,24 @@
-import {BrowserWindow} from 'electron';
-import * as path from 'path';
-import * as url from 'url';
+import {BrowserWindow} from "electron";
+import * as path from "path";
+import * as url from "url";
 
 export default class Main {
 
-  static mainWindow : Electron.BrowserWindow;
-  static BrowserWindow : typeof BrowserWindow;
-  static App : Electron.App;
+  public static mainWindow: Electron.BrowserWindow;
+  public static BrowserWindow: typeof BrowserWindow;
+  public static App: Electron.App;
 
   private static createWindow(){
     Main.mainWindow = new BrowserWindow({
-      width: 800,
-      height: 600
+      width: 1600,
+      height: 1000
     });
     Main.mainWindow.loadURL(url.format({
-      pathname: path.join(__dirname, '../html', 'index.html'),
-      protocol: 'file:',
+      pathname: path.join(__dirname, "../html", "index.html"),
+      protocol: "file:",
       slashes: true
     }));
-    Main.mainWindow.on('closed', Main.onClosed);
+    Main.mainWindow.on("closed", Main.onClosed);
   }
 
   private static onReady() {
@@ -26,7 +26,7 @@ export default class Main {
   }
 
   private static onWindowAllClosed() {
-    if (process.platform !== 'darwin') {
+    if (process.platform !== "darwin") {
       Main.App.quit()
     }
   }
@@ -41,11 +41,12 @@ export default class Main {
     }
   }
 
-  static main( app: Electron.App, browserWindow: typeof BrowserWindow){
-    Main.BrowserWindow = browserWindow;
-    Main.App = app;
-    Main.App.on('window-all-closed', Main.onWindowAllClosed);
-    Main.App.on('ready', Main.onReady);
-    Main.App.on('activate', Main.onActivate);
+  // tslint:disable-next-line:member-ordering
+  public static main( __app: Electron.App, __browserWindow: typeof BrowserWindow){
+    Main.BrowserWindow = __browserWindow;
+    Main.App = __app;
+    Main.App.on("window-all-closed", Main.onWindowAllClosed);
+    Main.App.on("ready", Main.onReady);
+    Main.App.on("activate", Main.onActivate);
   }
 }

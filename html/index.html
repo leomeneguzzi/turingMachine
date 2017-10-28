@@ -2,15 +2,66 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Turing Machine!</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
+    <!--<h1>Hello World!</h1>
+    <!-- All of the Node.js APIs are available in this renderer process. -d->
     We are using Node.js <script>document.write(process.versions.node)</script>,
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
-  </body>
+    -->
 
-  
+    <form class="form">
+      <div class="form-group">
+        <label for="transitions">Transições</label>
+        </br>
+        <textarea required name="transitions" id="transitions" cols="30" rows="10"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="inputTape">Fita de entrada</label>
+        </br>
+        <textarea required name="inputTape" id="inputTape" cols="30" rows="10"></textarea>
+      </div>
+
+      </br>
+      <div class="form-group">
+        <label for="initState">Estado inicial</label>
+        </br>
+        <input type="text" required name="initState" id="initState" >
+      </div>
+      </br>
+
+      </br>
+      <div class="form-group">
+        <label for="initState">Estado final</label>
+        </br>
+        <input type="text" required name="finalState" id="finalState" >
+      </div>
+      </br>
+
+      <div class="form-group">
+        <label for="inputTape">Saída</label>
+        </br>
+        <textarea name="output" id="output" cols="30" rows="10"></textarea>
+      </div>
+
+      <button class="btn btn-primary" type="submit">Mandar</button>
+    </form>     
+
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <script>
+      /*
+      (estado atual, read), (estado destino, write, direção)
+      H = halt
+      - = vazio
+      */
+      $('#transitions').val(`0,a,0,a,R\n0,-,4,-,S\n0,b,1,b,R\n1,b,1,b,R\n1,c,2,c,S\n2,c,2,c,R\n2,-,H,-,S\n4,-,H,-,S\n**\n0,-,0,a,R\n0,-,4,-,L\n0,-,1,-,S\n1,-,1,-,S\n1,-,2,-,L\n2,a,2,a,L\n2,-,H,-,S\n4,-,H,-,S\n**\n0,-,0,-,S\n0,-,4,-,S\n0,-,1,b,R\n1,-,1,b,R\n1,-,2,-,L\n2,b,2,b,L\n2,-,H,-,R\n4,-,H,-,S`);
+      $('#inputTape').val(`a,a,b,b,c,c:0\n-,-:0\n-,-:0`);
+      $('#initState').val(`0`);
+      $('#finalState').val(`H`);
+    </script>
+    <script>require('../build/Index.js')</script>
+  </body>
 </html>
