@@ -1,36 +1,53 @@
-import { Transition } from './Transition';
-import {clone} from 'lodash';
+import {clone} from "lodash";
+import {Tape} from "./Tape";
+import {Transition } from "./Transition";
 export class Transitions {
-    private _transitions : Transition[] = [];
+  private _transitions: Transition[] = [];
 
-    pushTransition(transition: Transition): void {
-        this._transitions.push(transition);
-    }
+  public push(__transition: Transition): void {
+    this._transitions.push(__transition);
+  }
 
-    get toArray(): Transition[] {
-        return clone(this._transitions);
-    }
+  public toArray(): Transition[] {
+    return clone(this._transitions);
+  }
 
-    getTransitionByEntryState(state : string) : Transition[]{
-        return clone(this._transitions.filter((transition : Transition) => transition.entryState == state));
-    }
+  public getTransitionByEntryState(__state: string): Transition[] {
+    return clone(this._transitions.filter((__transition: Transition) => __transition.entryState === __state));
+  }
 
-    getTransitionByStates(entryState : string, targetState : string) : Transition[]{
-        return clone(this._transitions.filter((transition : Transition) => transition.entryState == entryState && transition.targetState==targetState));
-    }
+  public isValidTransition(__index: number, __tape: Tape): Transition {
+    return this._transitions[__index].read === __tape.actualElement ? this._transitions[__index] : undefined;
+  }
 
-    get alphabet() : string[]{
-        return [].concat(
-            ...this._transitions.map((transition,index,self) => {
-                return [].concat(transition.read,transition.write)
-            })).filter((value,index,self) => self.indexOf(value) === index);
-    }
+  public getValidIndex(__entryState: string, __tape: Tape): number[] {
+    let __indexes: number[] = [].concat();
+    this._transitions.filter((__transition: Transition, __index: number) => {
+      if (__transition.entryState === __entryState && __transition.read === __tape.actualElement){
+        __indexes = __indexes.concat(__index);
+      }
+    });
+    return __indexes;
+  }
 
-    get states() : string[]{
-        return [].concat(
-            ...this._transitions.map((transition,index,self) => {
-                return [].concat(transition.entryState,transition.targetState)
-            })).filter((value,index,self) => (self.indexOf(value) === index) && (value != 'H'));
-    }
+  public getTransitionByStates(__entryState: string, __targetState: string): Transition[] {
+    return clone(this._transitions.filter( (__transition: Transition) =>
+        __transition.entryState === __entryState && __transition.targetState === __targetState
+      )
+    );
+  }
 
+  public getAlphabet(): string[] {
+    return [].concat(
+            ...this._transitions.map((__transition, __index, __self) => {
+              return [].concat(__transition.read, __transition.write)
+            })).filter((__value, __index, __self) => __self.indexOf(__value) === __index);
+  }
+
+  public getStates(): string[] {
+    return [].concat(
+            ...this._transitions.map((__transition, __index, __self) => {
+              return [].concat(__transition.entryState, __transition.targetState)
+            })).filter((__value, __index, __self) => (__self.indexOf(__value) === __index));
+  }
 }

@@ -1,104 +1,107 @@
-import { Transitions } from './Transitions';
-import { Transition } from './Transition';
-import {clone, cloneDeep, isEqual, zip} from 'lodash';
+import {clone, cloneDeep, isEqual, zip} from "lodash";
+import {Tape} from "./Tape";
+import { Tapes } from "./Tapes";
+import { Transition } from "./Transition";
+import {Transitions} from "./Transitions";
+
 export class TuringMachine{
+    private _blocksTransitions: Transitions[];
+    private _inputTapes: Tapes = new Tapes();
+    private _outputTapes: Tapes = new Tapes();
+    private _initState: string;
+    private _finalState: string;
 
-    private _transitions : Transitions[];
-    private _inputTapes : string[][] = [].concat('-');
-    private _tapesPositions : number[] = [];
-    private _outputTapes : string[][] = [];
-    private _initState : string;
+    public testTapes(
+        __inputTapes: Tapes = this._inputTapes,
+        __blockTransitions: Transitions[] = this._blocksTransitions,
+        __actualState: string = this._initState
+    ): boolean{
 
-    testTapes(inputTapes : string[][] = this.inputTapes, transitions : Transitions[] = this.transitions, tapePosition : number = 0, state : string = this._initState) : boolean{
-        //this.testTape(inputTape, index, transitions);
-        return this.testTape(inputTapes[0], 0, transitions[0]);
-    }
-
-    testTape(tape : string[] = this.inputTapes[0], index : number = 0, transitions : Transitions = this.transitions[0], tapePosition : number = 0, state : string = this._initState) : boolean{
-        console.log(tape);
-        if(tapePosition == -1) { tape.unshift('-'); tapePosition+=1;}
-        this._outputTapes[index] = tape;
-        let transition = this.getTransition(transitions, state, tape[tapePosition]);
-        if(transition != undefined) {
-            tape[tapePosition] = transition.write;
-            return isEqual(transition, this.endTransition(transitions)) ? 
-                true : 
-                    this.testTape(
-                        tape,
-                        index,
-                        transitions, 
-                        tapePosition += transition.directionToInt(),
-                        transition.targetState
-                    );
-        }else return false;
-    }
-
-    private getTransition(actualTransitions: Transitions,state : string, tapeValue : string) : Transition{
-        //console.log(this._tapesPositions);
-        let _transtition = actualTransitions.getTransitionByEntryState(state).find((transition : Transition) => transition.read == tapeValue);
-        if(_transtition == undefined) return undefined;
-        let _transitions = this.transitions.map((transitions : Transitions) => transitions.getTransitionByStates(_transtition.entryState,_transtition.targetState));
-        let temp = _transitions.map((value) => value[0]).filter((value,index)=> value.read == this._outputTapes[index][this._tapesPositions[index]]);
-        console.log(this._tapesPositions);
-        if (temp.length == this._transitions.length){
-            temp.map((value,index) => {
-                this._outputTapes[index][this._tapesPositions[index]] = value.write;
-                this._tapesPositions[index] += value.directionToInt();
-                if (this._tapesPositions[index] == -1){this._outputTapes[index].unshift('-'); this._tapesPositions[index] +=1;}  ;
+        __inputTapes.fixTapes();
+        const __filteredTransitions = this.checkTransitions(__inputTapes, __blockTransitions, __actualState);
+        if (__filteredTransitions !== undefined){
+            __filteredTransitions.map((__transition, __index) => {
+                __inputTapes.getTape(__index).actualElement = __transition.write;
+                __inputTapes.getTape(__index).position += __transition.directionToInt();
             });
-            return _transtition;
-        } else return undefined;
+            this._outputTapes = __inputTapes;
+
+            return this.isEndTransition(__filteredTransitions[0]) ?
+            true :
+                this.testTapes(
+                    __inputTapes,
+                    __blockTransitions,
+                    __filteredTransitions[0].targetState
+                );
+        } else {
+            this._outputTapes = __inputTapes;
+            return false;
+        }
     }
 
-    public get alphabet() :string[] {
-        return [].concat(...this.inputTapes).filter((value,index,self) => self.indexOf(value) === index);
+    private checkTransitions(
+        __inputTapes: Tapes,
+        __blockTransitions: Transitions[],
+        __actualState: string
+    ): Transition[] {
+        return __blockTransitions[0].getValidIndex(__actualState, __inputTapes.getTape(0)).map((__index: number) =>
+            __blockTransitions.map((__transitions: Transitions, __blockIndex: number) =>
+                __transitions.isValidTransition(__index,  __inputTapes.getTape(__blockIndex))
+            )
+        ).find((__transitions: Transition[]) => __transitions.length === this._blocksTransitions.length);
     }
 
-    public endTransition(transitions : Transitions): Transition {
-        return clone(transitions.toArray.find((transition) => transition.targetState == 'H'));
+    public get blockTransitions(): Transitions[]{
+		return this._blocksTransitions;
 	}
 
-    public get transitions(): Transitions[] {
-		return this._transitions;
-	}
-
-	public set transitions(transition: Transitions[]) {
-		this._transitions = clone(transition);
+	public set blockTransitions(__value: Transitions[]){
+		this._blocksTransitions = clone(__value);
     }
 
-	public addTransitions(transition: Transitions) {
-		this._transitions.concat(clone(transition));
-    }
-    
-    public get inputTapes():string[][] {
-		return cloneDeep(this._inputTapes);
-	}
-
-	public set inputTapes(inputTapes: string[][]) {
-        this._inputTapes = cloneDeep(inputTapes.map((tape) => tape.concat('-')));
-        this._inputTapes.map(() => this._tapesPositions.push(0));
-        this._outputTapes = clone(this._inputTapes);
-    }
-    
-    public get outputTapes():string[][] {
-		return cloneDeep(this._outputTapes);
-    }
-
-	public get initState(): string {
+	public get initState(): string{
 		return this._initState;
 	}
 
-	public set initState(value: string) {
-		this._initState = value;
+	public set initState(__value: string){
+		this._initState = __value;
     }
 
-	public get tapesPositions(): number[]  {
-		return this._tapesPositions;
+    public isEndTransition(__transition: Transition): boolean{
+        return __transition.targetState === this._finalState ? true : false;
+    }
+
+	public addTransitions(__value: Transitions){
+		this._blocksTransitions.concat(clone(__value));
+    }
+
+	public get inputTapes(): Tapes {
+		return this._inputTapes;
 	}
 
-	public set tapesPositions(value: number[] ) {
-		this._tapesPositions = value;
+	public set inputTapes(value: Tapes) {
+		this._inputTapes = value;
+    }
+
+	public get outputTapes(): Tapes {
+		return this._outputTapes;
 	}
-    
-    
+
+	public set outputTapes(value: Tapes) {
+		this._outputTapes = value;
+    }
+
+	public get finalState(): string {
+		return this._finalState;
+	}
+
+	public set finalState(value: string) {
+		this._finalState = value;
+    }
+
+    public getBlocksTransitionsAlphabet(): string[]{
+        return [].concat(...this._blocksTransitions.map(
+            (__blockTransition: Transitions) => __blockTransition.getAlphabet()
+        )).filter((__value, __index, __self) => __self.indexOf(__value) === __index);
+    }
 }
