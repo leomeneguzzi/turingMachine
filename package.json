@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc -w",
     "start": "electron .",
-    "win64": "electron-packager . myApp --platform=win32 --arch=x64"
+    "win64": "electron-packager . TuringMachine --platform=win32 --arch=x64 --overwrite"
   },
   "repository": {
     "type": "git",
@@ -31,9 +31,12 @@
     "@types/node": "^8.0.24",
     "electron": "^1.7.5",
     "tslint": "^5.8.0",
-    "typescript": "^2.5.3",
-    "lodash": "^4.17.4",
-    "jquery": "^3.2.1"
+    "typescript": "^2.5.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "downloadjs": "^1.4.7",
+    "cytoscape": "^3.2.5",
+    "lodash": "^4.17.4"
+  }
 }

@@ -3,54 +3,70 @@
   <head>
     <meta charset="UTF-8">
     <title>Turing Machine!</title>
+    <style>
+				#inputs{width:100%;height: auto;background-color: #AAA}
+				#cy{width:100%;height:1000px;background-color:#DDD}
+			</style>
   </head>
   <body>
-    <!--<h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -d->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-    -->
+    <section id="inputs">
+      <form class="form" id="executeMachine">
+        <div class="form-group">
+          <label for="transitions">Transições</label>
+          </br>
+          <textarea required name="transitions" id="transitions" cols="30" rows="10"></textarea>
+        </div>
 
-    <form class="form">
-      <div class="form-group">
-        <label for="transitions">Transições</label>
-        </br>
-        <textarea required name="transitions" id="transitions" cols="30" rows="10"></textarea>
-      </div>
+        <div class="form-group">
+          <label for="inputTape">Fita de entrada</label>
+          </br>
+          <textarea required name="inputTape" id="inputTape" cols="30" rows="10"></textarea>
+        </div>
 
-      <div class="form-group">
-        <label for="inputTape">Fita de entrada</label>
         </br>
-        <textarea required name="inputTape" id="inputTape" cols="30" rows="10"></textarea>
-      </div>
+        <div class="form-group">
+          <label for="initState">Estado inicial</label>
+          </br>
+          <input type="text" required name="initState" id="initState" >
+        </div>
+        </br>
+
+        </br>
+        <div class="form-group">
+          <label for="initState">Estado final</label>
+          </br>
+          <input type="text" required name="finalState" id="finalState" >
+        </div>
+        </br>
+
+        <div class="form-group">
+          <label for="inputTape">Saída</label>
+          </br>
+          <textarea name="output" id="output" cols="30" rows="10"></textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Mandar</button>
+      </form>     
 
       </br>
-      <div class="form-group">
-        <label for="initState">Estado inicial</label>
-        </br>
-        <input type="text" required name="initState" id="initState" >
-      </div>
+      <form id="generateNodes">
+          <button class="btn btn-primary" type="submit">Gerar parte gráfica</button>
+      </form>
+      
       </br>
+      <form id="saveNodes">
+          <button class="btn btn-primary" type="submit">Salvar imagem</button>
+      </form>
+    </section>
 
-      </br>
-      <div class="form-group">
-        <label for="initState">Estado final</label>
-        </br>
-        <input type="text" required name="finalState" id="finalState" >
-      </div>
-      </br>
+    <section>
+      <div id="cy"></div>
+    </section>
 
-      <div class="form-group">
-        <label for="inputTape">Saída</label>
-        </br>
-        <textarea name="output" id="output" cols="30" rows="10"></textarea>
-      </div>
-
-      <button class="btn btn-primary" type="submit">Mandar</button>
-    </form>     
 
     <script>window.$ = window.jQuery = require('jquery');</script>
+    <script>window.cytoscape = window.cytoscape = require('cytoscape');</script>
+    <script>window.download = window.downloadjs = require('downloadjs');</script>
     <script>
       /*
       (estado atual, read), (estado destino, write, direção)
