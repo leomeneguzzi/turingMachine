@@ -26,17 +26,17 @@
   },
   "homepage": "https://github.com/leomeneguzzi/turingMachine#readme",
   "devDependencies": {
-    "@types/jquery": "^3.2.12",
-    "@types/lodash": "^4.14.74",
-    "@types/node": "^8.0.24",
-    "electron": "^1.7.5",
-    "tslint": "^5.8.0",
-    "typescript": "^2.5.3"
+    "@types/jquery": "3.2.12",
+    "@types/lodash": "4.14.74",
+    "@types/node": "8.0.24",
+    "electron": "1.7.5",
+    "tslint": "5.8.0",
+    "typescript": "2.5.3"
   },
   "dependencies": {
-    "jquery": "^3.2.1",
-    "downloadjs": "^1.4.7",
-    "cytoscape": "^3.2.5",
-    "lodash": "^4.17.4"
+    "jquery": "3.2.1",
+    "downloadjs": "1.4.7",
+    "cytoscape": "3.2.5",
+    "lodash": "4.17.4"
   }
 }
